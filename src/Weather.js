@@ -1,6 +1,27 @@
-import Reach from "react";
+import React, {useState} from "react";
+import axios from "axios";
 import "./Weather.css";
-export default function Weather() {
+
+export default function Weather(props) {
+
+
+const[weatherData, setWeatherData] = useState({ready:false});
+function handleResponse(response){
+  setWeatherData({
+ready: true,
+  city: response.data.main.name,
+  temperature: response.data.main.temp,
+  wind: response.data.wind.speed,
+  humidity: response.data.main.humidity,
+description: response.data.weather[0].description,
+  iconUrl: "https://ssl.gstatic.com/onebox/weather/64/cloudy.png",
+date: "Sunday 08:00",
+  });
+
+}
+
+if (weatherData.ready){
+
   return ( 
   <div className="Weather">
     <form>
@@ -18,21 +39,21 @@ export default function Weather() {
       </div>
       </div>
       </form>
-    <h1>Denver</h1>
+    <h1>{weatherData.city}</h1>
     <ul> 
-      <li>Sunday 01:00</li>
-      <li> Sunny</li>
+      <li>{weatherData.date}</li>
+      <li className="text-capitalize">{weatherData.description}</li>
       </ul>
     <div className="row mt-3">
       <div className="col-6">
         <div className="clearfix">
         <img
-        src="https://ssl.gstatic.com/onebox/weather/64/cloudy.png"
-        alt="Sunny"
+        src={weatherData.iconUrl}
+        alt={weatherData.description}
         className="float-left"
         />
         
-        <span className="temperature">10</span>
+        <span className="temperature">{Math.round(weatherData.temperature)}</span>
         <span className="unit"> F</span>
         </div>
                 
@@ -44,7 +65,16 @@ export default function Weather() {
           </ul>
       </div>
     </div>
-    
     </div>
   );
+  
+} else {
+
+let apiKey = "c330d6d567e845b62d32598b378046e4";
+let apiUrl = `http://api.openweathermap.org/data/2.5/weather?q=${props.defaultCity}&appid=${apiKey}&units=metric`;
+
+axios.get(apiUrl).then(handleResponse);
+  
+return " Loading...";
+}
 }
