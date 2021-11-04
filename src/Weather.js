@@ -17,15 +17,10 @@ function handleResponse(response){
   wind: response.data.wind.speed,
   humidity: response.data.main.humidity,
   description: response.data.weather[0].description,
-  iconUrl: "https://openweathermap.org/img/wn/{response.data.weather[0].icon}@2x.png",
+  icon: response.data.weather[0].icon,
   date: new Date(response.data.dt * 1000),
   });
 }
-
-function search(){}
-let apiKey = "c330d6d567e845b62d32598b378046e4";
-let apiUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city}}&appid=${apiKey}&units=metric`;
-axios.get(apiUrl).then(handleResponse);
 
 function handleSubmit(event){
   event.preventDefault();
@@ -35,6 +30,14 @@ function handleSubmit(event){
 function handleCityChange(event){
   setCity(event.target.value);
 }
+
+function search(){}
+let apiKey = "c330d6d567e845b62d32598b378046e4";
+let apiUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city}}&appid=${apiKey}&units=metric`;
+axios.get(apiUrl).then(handleResponse);
+
+
+
 
 if (weatherData.ready){
 
@@ -62,6 +65,6 @@ if (weatherData.ready){
   );
 } else {
 search(); 
-return " Loading...";
+return "Loading...";
 }
 }
