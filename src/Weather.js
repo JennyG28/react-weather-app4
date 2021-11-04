@@ -6,7 +6,7 @@ import "./Weather.css";
 
 
 export default function Weather(props) {
-const[weatherData, setWeatherData] = useState({ready:false});
+const[weatherData, setWeatherData] = useState({ready: false});
 const [city, setCity] = useState(props.defaultCity);
 
 function handleResponse(response){
@@ -31,13 +31,11 @@ function handleCityChange(event){
   setCity(event.target.value);
 }
 
-function search(){}
+function search(){
 let apiKey = "c330d6d567e845b62d32598b378046e4";
-let apiUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city}}&appid=${apiKey}&units=metric`;
+let apiUrl = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 axios.get(apiUrl).then(handleResponse);
-
-
-
+}
 
 if (weatherData.ready){
 
